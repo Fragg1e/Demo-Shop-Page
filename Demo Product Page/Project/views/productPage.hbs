@@ -1,0 +1,66 @@
+<section class="product-detail p-4">
+  <a href="/">← Back</a>
+  <h1 class = 'text-center'>{{product.title}}</h1>
+  
+    <div class = 'row'> 
+        <div class = 'col'>
+            <img src="{{product.thumbnail}}" alt="{{product.title}}" width="500" height="500">
+        </div>
+        <div class = 'col'>
+            <p><strong>Category:</strong> {{product.category}}</p>
+            <p><strong>Price:</strong> €{{product.price}}</p>
+            <p><strong>Rating:</strong> {{product.rating}} / 5</p>
+        </div>
+    </div>
+
+    <div class = 'row'>
+        <div class = 'col'>
+            <p>{{product.description}}</p>
+        </div>
+        <div class = 'col'>
+            
+        </div>
+    </div>
+  
+  <div id="carousel-{{product.id}}" class="carousel slide" data-bs-ride="carousel">
+  {{#if product.images.length}}
+    <!-- indicators -->
+    <div class="carousel-indicators">
+      {{#each product.images}}
+        <button type="button"
+                data-bs-target="#carousel-{{../product.id}}"
+                data-bs-slide-to="{{@index}}"
+                class="{{#if @first}}active{{/if}}"
+                aria-current="{{#if @first}}true{{/if}}"
+                aria-label="Slide {{@index}}">
+        </button>
+      {{/each}}
+    </div>
+
+    <!-- slides -->
+    <div class="carousel-inner">
+      {{#each product.images}}
+        <div class="carousel-item {{#if @first}}active{{/if}}">
+          <img src="{{this}}" class="d-block w-100" alt="{{../product.title}}">
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- controls -->
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#carousel-{{product.id}}" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#carousel-{{product.id}}" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+  
+  
+</section>
