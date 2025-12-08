@@ -52,9 +52,6 @@ app.get("/products/:id", async (req, res, next) => {
     const id = req.params.id;
     const response = await fetch(`https://dummyjson.com/products/${id}`);
 
-    if (!response.ok)
-      return res.status(404).render("404", { message: "Product not found" });
-
     const product = await response.json();
     const head = { title: product.title };
     const state = { productPage: true };
@@ -89,25 +86,73 @@ app.get("/contact", (req, res) => {
   console.log("contact");
 });
 
+// contact route
+app.get("/basket", (req, res) => {
+  state = { basket: true };
+  head = { title: "Basket" };
+  res.render("basket", { state, head });
+  console.log("basket");
+});
+
+// contact route
+app.get("/checkout", (req, res) => {
+  state = { checkout: true };
+  head = { title: "Checkout" };
+  res.render("checkout", { state, head });
+  console.log("checkout");
+});
+
 async function getProducts() {
-  const promises = [];
+  const products = [];
+
   for (let i = 1; i < 10; i++) {
-    promises.push(
+    products.push(
       fetch(`https://dummyjson.com/products/${i}`)
         .then((res) => res.json())
-        .then((p) => ({
-          id: p.id,
-          title: p.title,
-          description: p.description,
-          category: p.category,
-          price: Number(p.price).toFixed(2),
-          rating: p.rating,
-          discountPercentage: p.discountPercentage,
-          thumbnail: p.thumbnail,
-        }))
+        .then((p) => {
+          const price = Number(p.price);
+          const discountedPrice = price - (price * p.discountPercentage) / 100;
+
+          return {
+            id: p.id,
+            title: p.title,
+            description: p.description,
+            category: p.category,
+            price: Number(price.toFixed(2)),
+            discount: p.discountPercentage,
+            discountedPrice: discountedPrice.toFixed(2), 
+            tags: p.tags,
+            rating: p.rating,
+            thumbnail: p.thumbnail
+          };
+        })
     );
   }
-  return Promise.all(promises);
+
+  return Promise.all(products);
+}
+
+
+
+function GetDiscount(originalPrice, discountPercentage){
+
+  const discount = originalPrice - ((discountPercentage /100 ) * originalPrice);
+  return Number((discount).toFixed(2));
+
+}
+console.log(GetDiscount(9.50, 10));
+
+basket = []
+
+function DisplayBasket(){
+  basket.forEach(element => {
+    
+  });
+}
+
+
+function AddtoBasket(){
+
 }
 
 // Start the server

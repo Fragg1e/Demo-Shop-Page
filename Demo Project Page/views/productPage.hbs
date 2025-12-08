@@ -21,44 +21,19 @@
             
         </div>
     </div>
-  
-  <div id="carousel-{{product.id}}" class="carousel slide" data-bs-ride="carousel">
-  {{#if product.images.length}}
-    <!-- indicators -->
-    <div class="carousel-indicators">
-      {{#each product.images}}
-        <button type="button"
-                data-bs-target="#carousel-{{../product.id}}"
-                data-bs-slide-to="{{@index}}"
-                class="{{#if @first}}active{{/if}}"
-                aria-current="{{#if @first}}true{{/if}}"
-                aria-label="Slide {{@index}}">
-        </button>
-      {{/each}}
-    </div>
 
-    <!-- slides -->
-    <div class="carousel-inner">
-      {{#each product.images}}
-        <div class="carousel-item {{#if @first}}active{{/if}}">
-          <img src="{{this}}" class="d-block w-100" alt="{{../product.title}}">
+    <div class="reviews">
+      <h4>Reviews</h4>
+      {{#each reviews}}
+        <div class="review">
+          <p><strong>{{reviewerName}}</strong>: {{comment}}</p>
+          <p>Rating: {{rating}} / 5</p>
         </div>
       {{/each}}
     </div>
-  {{/if}}
-
-  <!-- controls -->
-  <button class="carousel-control-prev" type="button"
-          data-bs-target="#carousel-{{product.id}}" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button"
-          data-bs-target="#carousel-{{product.id}}" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+    
+  </div>
+  
 
 
   

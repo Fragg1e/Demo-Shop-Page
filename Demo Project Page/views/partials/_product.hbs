@@ -1,40 +1,24 @@
-<article class="product-card">
-    <a class="thumb" href="/products/{{id}}">
+
+<div class="product-card" >
+    <a class="thumbnail" href="/products/{{id}}">
         <img src="{{thumbnail}}" alt="{{title}}" loading="lazy" width="150" height="150">
     </a>
   <div class="product-info">
-    <h2>{{title}}</h2>
+    <h2><a class="product-title" href="/products/{{id}}">{{title}}</a></h2>
     <div class = 'row'>
         <div class = 'col'>
-            <p class="price">€{{price}}</p>
+            <p class="price"><s>€{{price}}</s><span class="discount"> €{{discount}}</span></p>
         </div>
         <div class = 'col'>
             <p><strong>Rating:</strong> {{rating}} / 5</p>
         </div>
     </div>
-    
-    <p><strong>Stock:</strong> {{stock}}</p>
-
-    {{!-- Optional: show tags if available --}}
-    {{#if tags.length}}
-      <ul class="tags">
-        {{#each tags}}
-          <li>{{this}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
-
-    {{!-- Optional: reviews --}}
-    {{#if reviews.length}}
-      <div class="reviews">
-        <h4>Reviews</h4>
-        {{#each reviews}}
-          <div class="review">
-            <p><strong>{{reviewerName}}</strong>: {{comment}}</p>
-            <p>Rating: {{rating}} / 5</p>
-          </div>
-        {{/each}}
-      </div>
-    {{/if}}
   </div>
-</article>
+
+    <ul class="tags">
+      {{#each tags}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+</div>
+
