@@ -27,6 +27,9 @@ app.set("views", "views");
 // where to find static files - css, images, js
 app.use(express.static("public"));
 
+app.use(express.json());
+
+
 // home page or home route
 app.get("/", async (req, res, next) => {
   try {
@@ -61,6 +64,12 @@ app.get("/products/:id", async (req, res, next) => {
     return next(err);
   }
 });
+
+
+
+
+
+
 
 // contact route
 app.get("/shop", (req, res) => {
@@ -111,9 +120,8 @@ async function getProducts() {
         .then((res) => res.json())
         .then((p) => {
           const price = Number(p.price);
-          const discountedPrice = price - (price * p.discountPercentage) / 100;
-
-          return {
+          const discountedPrice = price - (price * (p.discountPercentage / 100));
+          const product = {
             id: p.id,
             title: p.title,
             description: p.description,
@@ -125,6 +133,7 @@ async function getProducts() {
             rating: p.rating,
             thumbnail: p.thumbnail
           };
+          return product;
         })
     );
   }
@@ -133,27 +142,6 @@ async function getProducts() {
 }
 
 
-
-function GetDiscount(originalPrice, discountPercentage){
-
-  const discount = originalPrice - ((discountPercentage /100 ) * originalPrice);
-  return Number((discount).toFixed(2));
-
-}
-console.log(GetDiscount(9.50, 10));
-
-basket = []
-
-function DisplayBasket(){
-  basket.forEach(element => {
-    
-  });
-}
-
-
-function AddtoBasket(){
-
-}
 
 // Start the server
 app.listen(4000, () => {
