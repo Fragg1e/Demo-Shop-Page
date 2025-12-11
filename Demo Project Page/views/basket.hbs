@@ -1,0 +1,26 @@
+<main>
+    <h1 class="display-1 text-center">Basket</h1>
+    <div class= "row">
+        <div class= "col-8">
+            <div class="basket-products">
+                {{#if basketItems.length}}
+                {{#each basketItems}}
+                        {{> _basketProduct product = this.product quantity = this.quantity}}
+                    {{/each}}
+                {{else}}
+                <h2 class="text-center">You have nothing in your basket!!</p>
+                {{/if}} 
+            </div>
+        </div>
+        <div class= "col-4">
+            <div class="basket-checkout">
+                <h3 class = "basket-total">Total: €{{total}}</h3>
+
+                <a href="checkout"><button>Go to Checkout</button></a>
+            </div>
+            
+        </div>
+    </div>
+    
+
+</main>

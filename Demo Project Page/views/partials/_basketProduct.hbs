@@ -1,0 +1,28 @@
+<div class="basket-product-card">
+    <div class="row">
+        <div class="col">
+            <a class="thumbnail" href="/products/{{product.id}}">
+                <img src="{{product.thumbnail}}" alt="{{product.title}}" loading="lazy" width="150" height="150">
+            </a>
+        </div>
+        <div class="col">
+            <div class="basket-product-info">
+                <h2><a class="product-title" href="/products/{{product.id}}">{{product.title}}</a></h2>
+                <div class = 'row'>
+                    <div class = 'col'>
+                        <p class="price"><s>€{{product.price}}</s><span class="discount"> €{{product.discountedPrice}}</span></p>
+                        <p class="discount">{{product.discountPercentage}}% OFF!!</p>
+                    </div>
+                    <div class = 'col'>
+                        <p><strong>Rating:</strong> {{product.rating}} / 5</p>
+                        <p class="quantity">Quantity: {{quantity}}</p>
+                    </div>
+                    <div class = 'col'>
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+</div>
+

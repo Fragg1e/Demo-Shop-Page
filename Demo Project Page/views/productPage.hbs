@@ -1,24 +1,24 @@
 <section class="product-detail p-4">
   <a href="/">← Back</a>
-  <h1 class = 'text-center'>{{product.title}}</h1>
+  <h1 class = 'text-center'>{{title}}</h1>
   
     <div class = 'row'> 
         <div class = 'col'>
-            <img src="{{product.thumbnail}}" alt="{{product.title}}" width="500" height="500">
+            <img src="{{thumbnail}}" alt="{{title}}" width="500" height="500">
         </div>
         <div class = 'col'>
-            <p><strong>Category:</strong> {{product.category}}</p>
-            <p><strong>Price:</strong> €{{product.price}}</p>
-            <p><strong>Rating:</strong> {{product.rating}} / 5</p>
+            <p><strong>Category:</strong> {{category}}</p>
+            <p><strong>Price:</strong> €{{price}}</p>
+            <p><strong>Rating:</strong> {{rating}} / 5</p>
         </div>
     </div>
 
     <div class = 'row'>
         <div class = 'col'>
-            <p>{{product.description}}</p>
+            <p>{{description}}</p>
         </div>
         <div class = 'col'>
-            <button onclick="AddToBasket({{product.id}})">Add to Basket</button>
+            <button onclick="AddToBasket({{id}})">Add to Basket</button>
         </div>
     </div>
 

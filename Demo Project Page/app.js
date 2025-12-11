@@ -3,6 +3,8 @@ const express = require("express");
 // load handlebars
 const exphbs = require("express-handlebars");
 
+const session = require("express-session");
+
 // instantiate express
 const app = express();
 
@@ -29,11 +31,17 @@ app.use(express.static("public"));
 
 app.use(express.json());
 
+app.use(session({
+  secret: "secret",
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 // home page or home route
 app.get("/", async (req, res, next) => {
   try {
-    const products = await getProducts();
+    const products = await GetProducts();
 
     state = { home: true };
 
@@ -53,8 +61,7 @@ app.get("/", async (req, res, next) => {
 app.get("/products/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const response = await fetch(`https://dummyjson.com/products/${id}`);
-
+    const response = await GetProduct(id);
     const product = await response.json();
     const head = { title: product.title };
     const state = { productPage: true };
@@ -64,12 +71,6 @@ app.get("/products/:id", async (req, res, next) => {
     return next(err);
   }
 });
-
-
-
-
-
-
 
 // contact route
 app.get("/shop", (req, res) => {
@@ -95,13 +96,57 @@ app.get("/contact", (req, res) => {
   console.log("contact");
 });
 
+app.get("/checkout", (req, res) => {
+  state = { checkout: true };
+  head = { title: "Checkout" };
+  res.render("checkout", { state, head });
+  console.log("checkout");
+});
+
 // contact route
-app.get("/basket", (req, res) => {
+app.post("/basket", (req, res) => {
+  
+  const { basket} = req.body;
+  req.session.basket = basket;
+  res.json({ success: true }); 
+
+});
+
+app.get("/basket", async (req, res) => {
+
+  const basket = req.session.basket || [];
+
+  const basketTrack = {};
+  let total = 0;
+
+  for(const id of basket){
+  if(basketTrack[id] == null){
+    basketTrack[id] = 1;
+    }
+  else{
+    basketTrack[id]++;
+    }
+  }
+  basketItems = []
+  
+  for(const id in basketTrack){
+    const product = await GetProduct(id);
+    const quantity = basketTrack[id];
+    product.price *= quantity;
+    total += product.price;
+    product.discountedPrice *= quantity;
+    basketItems.push({
+      product: product,
+      quantity: quantity
+    })
+  }
+
   state = { basket: true };
   head = { title: "Basket" };
-  res.render("basket", { state, head });
+  res.render("basket", { state, head, basketItems, total});
   console.log("basket");
 });
+
 
 // contact route
 app.get("/checkout", (req, res) => {
@@ -111,35 +156,67 @@ app.get("/checkout", (req, res) => {
   console.log("checkout");
 });
 
-async function getProducts() {
-  const products = [];
+// contact route
+app.get("/register", (req, res) => {
+  state = { register: true };
+  head = { title: "Register" };
+  res.render("register", { state, head });
+  console.log("register");
+});
+
+async function GetProducts() {
+  const requests = [];
 
   for (let i = 1; i < 10; i++) {
-    products.push(
-      fetch(`https://dummyjson.com/products/${i}`)
-        .then((res) => res.json())
-        .then((p) => {
-          const price = Number(p.price);
-          const discountedPrice = price - (price * (p.discountPercentage / 100));
-          const product = {
-            id: p.id,
-            title: p.title,
-            description: p.description,
-            category: p.category,
-            price: Number(price.toFixed(2)),
-            discount: p.discountPercentage,
-            discountedPrice: discountedPrice.toFixed(2), 
-            tags: p.tags,
-            rating: p.rating,
-            thumbnail: p.thumbnail
-          };
-          return product;
-        })
-    );
+    requests.push(GetProduct(i));
   }
 
-  return Promise.all(products);
+  const products = await Promise.all(requests);
+
+  return products;
 }
+
+
+async function GetProduct(id) {
+  try{
+    const res = await fetch(`https://dummyjson.com/products/${id}`)
+    const p = await res.json(); 
+    const price = Number(p.price.toFixed(2));
+    const discountedPrice = (p.price - (p.price * (p.discountPercentage / 100))).toFixed(2);
+
+    return {
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    category: p.category,
+    price: price,
+    discountPercentage: p.discountPercentage,
+    discountedPrice: discountedPrice,
+    rating: p.rating,
+    stock: p.stock,
+    tags: p.tags,
+    brand: p.brand,
+    weight: p.weight,
+    dimensions:
+        {
+          width: p.dimensions.width,
+          height: p.dimensions.height,
+          depth: p.dimensions.depth,
+        },
+    warrantyInformation: p.warrantyInformation,
+    shippingInformation: p.shippingInformation,
+    availabilityStatus: p.availabilityStatus,
+    reviews: p.reviews,
+    images: p.images,
+    thumbnail: p.thumbnail,
+  }; 
+
+  } catch (err){
+    console.log(err);
+  }
+}
+
+
 
 
 
