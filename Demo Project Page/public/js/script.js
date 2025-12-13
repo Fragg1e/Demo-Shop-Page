@@ -6,7 +6,15 @@ function saveBasket() {
 
 function AddToBasket(productID, title){
   basket.push(productID);
-  console.log(productID);
+  alert("Added", title, "to basket!");
+  sendBasketToServer();
+  saveBasket();
+}
+
+function RemoveFromBasket(productID, title){
+  const index = basket.indexOf(productID);
+  basket.splice(index, 1);
+  location.reload();
   sendBasketToServer();
   saveBasket();
 }
@@ -24,10 +32,31 @@ async function sendBasketToServer() {
   console.log("Server response:", result);
 }
 
+const sortSelect = document.getElementById("sort-select");
+const grid = document.getElementById("product-grid");
+
+function sortCards(value) {
+  const cards = Array.from(grid.querySelectorAll(".product-card"));
+
+  console.log(cards);
+
+  const compare = {
+    "rating-desc": (a, b) => Number(b.dataset.rating) - Number(a.dataset.rating),
+    "price-asc":   (a, b) => Number(a.dataset.price) - Number(b.dataset.price),
+    "price-desc":  (a, b) => Number(b.dataset.price) - Number(a.dataset.price),
+    "title-asc":   (a, b) => a.dataset.title.localeCompare(b.dataset.title),
+  }[value];
+
+  cards.sort(compare).forEach(card => grid.appendChild(card));
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   sendBasketToServer();
   console.log("Loaded basket from storage:", basket);
 
 });
 
+sortSelect.addEventListener("change", (e) => sortCards(e.target.value));
 
+sortCards(sortSelect.value);

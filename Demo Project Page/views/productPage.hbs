@@ -1,37 +1,66 @@
+<h1 class = 'text-center display-4'>{{product.title}}</h1>
+
+
+<main>
+  
 <section class="product-detail p-4">
   <a href="/">← Back</a>
-  <h1 class = 'text-center'>{{product.title}}</h1>
-  
+  <br><br>
     <div class = 'row'> 
         <div class = 'col'>
             <img src="{{product.thumbnail}}" alt="{{product.title}}" width="500" height="500">
         </div>
         <div class = 'col'>
-            <p><strong>Category:</strong> {{product.category}}</p>
             <p><strong>Price:</strong> €{{product.price}}</p>
             <p><strong>Rating:</strong> {{product.rating}} / 5</p>
-        </div>
-    </div>
-
-    <div class = 'row'>
-        <div class = 'col'>
             <p>{{product.description}}</p>
-        </div>
-        <div class = 'col'>
-            <button onclick="AddToBasket({{product.id}})">Add to Basket</button>
+            <button  type="button" class="btn btn-lg add-to-basket" onclick="AddToBasket({{id}}, `${{{title}}}`)">Add to Basket</button>
+
         </div>
     </div>
+    <div class= "product-info">
 
-    <div class="reviews">
-      <h4>Reviews</h4>
-      {{#each product.reviews}}
-        <div class="review">
-          <p><strong>{{reviewerName}}</strong>: {{comment}}</p>
-          <p>Rating: {{rating}} / 5</p>
+      <div class = 'row '>
+        <div class = 'col'>
+            <div class="reviews">
+              <h4>Reviews</h4>
+              {{#each product.reviews}}
+                <div class="review">
+                  <p><strong>{{reviewerName}}</strong>: {{comment}}</p>
+                  <p>Rating: {{rating}} / 5</p>
+                </div>
+              {{/each}}
+            </div>
         </div>
+
+        <div class = 'col'>
+          <h4>Product Specifications</h4>
+
+          <h5>Dimensions</h5>
+
+          
+          <p>Width: {{product.dimensions.width}}</p>
+          <p>Heigth: {{product.dimensions.height}}</p>
+          <p>Depth: {{product.dimensions.depth}}</p>
+
+          <h5>Warranty Details</h5>
+
+          <p>{{product.warrantyInformation}}</p> 
+
+          <h5>Shipping Information</h5>
+
+          <p>{{product.shippingInformation}}</p>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="container">
+      <div class="product-images row">
+      {{#each product.images}}
+        <img src={{this}} alt = {{../product.title}} class="product-img">
       {{/each}}
     </div>
-    
   </div>
   
 
@@ -39,3 +68,5 @@
   
   
 </section>
+
+</main>

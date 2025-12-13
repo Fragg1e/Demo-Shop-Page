@@ -1,10 +1,12 @@
-
-<div class="product-card" >
+<div class="product-card" 
+    data-price="{{price}}"
+    data-rating="{{rating}}"
+    data-title="{{title}}">
     <a class="thumbnail" href="/products/{{id}}">
         <img src="{{thumbnail}}" alt="{{title}}" loading="lazy" width="150" height="150">
     </a>
   <div class="product-info">
-    <h2><a class="product-title" href="/products/{{id}}">{{title}}</a></h2>
+    <h3><a class="product-title" href="/products/{{id}}">{{title}}</a></h3>
     <div class = 'row'>
         <div class = 'col'>
             <p class="price"><s>€{{price}}</s><span class="discount"> €{{discountedPrice}}</span></p>
@@ -14,7 +16,8 @@
             <p><strong>Rating:</strong> {{rating}} / 5</p>
         </div>
     </div>
-    <button onclick="AddToBasket({{id}}, `${{{title}}}`)">Add to Basket</button>
+    <button  type="button" class="btn add-to-basket" onclick="AddToBasket({{id}}, `${{{title}}}`)">Add to Basket</button>
+    
   </div>
 
     <ul class="tags">

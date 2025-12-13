@@ -1,17 +1,27 @@
+<h1 class="display-1 text-center">Home</h1>
+
 <main>
-    <h1 class="display-1 text-center">Home</h1>
-    <h1 class = 'text-center'>This is a college project completed as part of an assignment.</h1>
+  <section class="product-grid">
+    <h2>Buy Again</h2>
 
+    
+      <div class="products">
+        {{#each buyAgain}}
+          {{> _product this}}
+        {{/each}}
+      </div>
 
-    <section class="product-grid">
-  <h1>Buy Again</h1>
+  </section>
+
+  <section class="product-grid">
+    <h2>Highest Rated</h2>
 
   
     <div class="products">
-      {{#each products}}
+      {{#each highestRated}}
         {{> _product this}}
       {{/each}}
     </div>
 
-</section>
+  </section>
 </main>

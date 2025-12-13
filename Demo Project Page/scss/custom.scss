@@ -14,6 +14,12 @@ h1{
   color: red;
 }
 
+.reviews{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .product-grid {
   width: 90%;
   margin: 2rem auto;

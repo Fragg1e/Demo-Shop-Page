@@ -1,5 +1,5 @@
+<h1 class="display-1 text-center">Basket</h1>
 <main>
-    <h1 class="display-1 text-center">Basket</h1>
     <div class= "row">
         <div class= "col-8">
             <div class="basket-products">
@@ -8,7 +8,9 @@
                         {{> _basketProduct product = this.product quantity = this.quantity}}
                     {{/each}}
                 {{else}}
-                <h2 class="text-center">You have nothing in your basket!!</p>
+                <div class = "empty-basket">
+                    <h3 class="text-center">You have nothing in your basket!!</h3>
+                </div>
                 {{/if}} 
             </div>
         </div>
@@ -16,7 +18,7 @@
             <div class="basket-checkout">
                 <h3 class = "basket-total">Total: €{{total}}</h3>
 
-                <a href="checkout"><button>Go to Checkout</button></a>
+                <a href="checkout" id = "checkout"><button type="button" class="btn checkout-button">Go to Checkout</button></a>
             </div>
             
         </div>

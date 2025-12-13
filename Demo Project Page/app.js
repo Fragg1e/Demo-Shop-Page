@@ -41,7 +41,9 @@ app.use(session({
 // home page or home route
 app.get("/", async (req, res, next) => {
   try {
-    const products = await GetProducts();
+    const buyAgain = await GetBuyAgain();
+
+    const highestRated = await GetHighestRated();
 
     state = { home: true };
 
@@ -49,7 +51,7 @@ app.get("/", async (req, res, next) => {
 
     console.log("home");
 
-    return res.render("index", { state, head, products });
+    return res.render("index", { state, head, buyAgain, highestRated });
   } catch (err) {
     console.error(err);
     return next(err);
@@ -72,10 +74,13 @@ app.get("/products/:id", async (req, res, next) => {
 });
 
 // contact route
-app.get("/shop", (req, res) => {
+app.get("/shop", async(req, res) => {
+
+  const products = await GetAllProducts();
   state = { shop: true };
   head = { title: "Shop" };
-  res.render("shop", { state, head });
+
+  res.render("shop", { state, head, products});
   console.log("shop");
 });
 
@@ -131,9 +136,16 @@ app.get("/basket", async (req, res) => {
   for(const id in basketTrack){
     const product = await GetProduct(id);
     const quantity = basketTrack[id];
+
     product.price *= quantity;
+    product.price = product.price;
     total += product.price;
+
     product.discountedPrice *= quantity;
+    product.discountedPrice = Number(product.discountedPrice).toFixed(2);
+
+    
+
     basketItems.push({
       product: product,
       quantity: quantity
@@ -172,10 +184,10 @@ app.get("/login", (req, res) => {
   console.log("login");
 });
 
-async function GetProducts() {
+async function GetBuyAgain() {
   const requests = [];
 
-  for (let i = 1; i < 10; i++) {
+  for (let i = 125; i < 128; i++) {
     requests.push(GetProduct(i));
   }
 
@@ -184,11 +196,46 @@ async function GetProducts() {
   return products;
 }
 
+async function GetHighestRated() {
+  const requests = [];
+
+  for (let i = 121; i < 137; i++) {
+    requests.push(GetProduct(i));
+  }
+
+  const products = await Promise.all(requests);
+
+  const highestRated = products.filter(p => p.rating >= 4);
+  highestRated.sort((a, b) => a.rating - b.rating);
+
+
+  return highestRated;
+}
+
+async function GetAllProducts() {
+  try{
+    const res = await fetch("https://dummyjson.com/products/category/smartphones")
+    const p = await res.json(); 
+    const products = p.products;
+    console.log(products[0].id);
+    
+    return products;
+    }
+    catch(err){
+      console.log(err);
+    }
+  
+}
+
+
+
 
 async function GetProduct(id) {
   try{
     const res = await fetch(`https://dummyjson.com/products/${id}`)
     const p = await res.json(); 
+
+ 
     const price = Number(p.price.toFixed(2));
     const discountedPrice = (p.price - (p.price * (p.discountPercentage / 100))).toFixed(2);
 

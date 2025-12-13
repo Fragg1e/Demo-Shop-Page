@@ -1,17 +1,25 @@
 <main>
     <h1 class="display-1 text-center">Shop</h1>
-   
-
+    
+    <div class = "sorter">
+    <label for="sort-select"><b>Sort by: </b></label>
+    <select id="sort-select">
+      <option value="rating-desc">Rating (high → low)</option>
+      <option value="price-asc">Price (low → high)</option>
+      <option value="price-desc">Price (high → low)</option>
+      <option value="title-asc">Name (A → Z)</option>
+    </select>
+    </div>
 
     <section class="product-grid">
-  <h1>Buy Again</h1>
 
+    <div class="products" id = "product-grid">
+      {{#each products}}
+
+        {{> _product this}}
+        
+      {{/each}}
+    </div>
   
-  <div class="products">
-    {{#each products}}
-      {{> _product this}}
-    {{/each}}
-  </div>
-  
-</section>
+    </section>
 </main>
