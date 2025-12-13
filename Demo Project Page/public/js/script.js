@@ -4,10 +4,9 @@ function saveBasket() {
   localStorage.setItem("basket", JSON.stringify(basket));
 }
 
-function AddToBasket(product){
-  console.log(`added ${product} Add to basket`)
-  
-  basket.push(product);
+function AddToBasket(productID, title){
+  basket.push(productID);
+  console.log(productID);
   sendBasketToServer();
   saveBasket();
 }

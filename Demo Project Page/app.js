@@ -61,8 +61,7 @@ app.get("/", async (req, res, next) => {
 app.get("/products/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const response = await GetProduct(id);
-    const product = await response.json();
+    const product = await GetProduct(id);
     const head = { title: product.title };
     const state = { productPage: true };
 
@@ -151,8 +150,9 @@ app.get("/basket", async (req, res) => {
 // contact route
 app.get("/checkout", (req, res) => {
   state = { checkout: true };
+  const loggedIn = false;
   head = { title: "Checkout" };
-  res.render("checkout", { state, head });
+  res.render("checkout", { state, head, loggedIn});
   console.log("checkout");
 });
 
@@ -160,8 +160,16 @@ app.get("/checkout", (req, res) => {
 app.get("/register", (req, res) => {
   state = { register: true };
   head = { title: "Register" };
-  res.render("register", { state, head });
+  res.render("register", { state, head});
   console.log("register");
+});
+
+// contact route
+app.get("/login", (req, res) => {
+  state = { login: true };
+  head = { title: "Login" };
+  res.render("login", { state, head });
+  console.log("login");
 });
 
 async function GetProducts() {
@@ -215,9 +223,6 @@ async function GetProduct(id) {
     console.log(err);
   }
 }
-
-
-
 
 
 // Start the server
