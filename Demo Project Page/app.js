@@ -41,6 +41,8 @@ app.use(session({
 // home page or home route
 app.get("/", async (req, res, next) => {
   try {
+    
+
     const buyAgain = await GetBuyAgain();
 
     const highestRated = await GetHighestRated();
@@ -137,8 +139,7 @@ app.get("/basket", async (req, res) => {
     const product = await GetProduct(id);
     const quantity = basketTrack[id];
 
-    product.price *= quantity;
-    product.price = product.price;
+    product.price = product.price * quantity;
     total += product.price;
 
     product.discountedPrice *= quantity;
@@ -152,8 +153,8 @@ app.get("/basket", async (req, res) => {
     })
   }
 
-  state = { basket: true };
-  head = { title: "Basket" };
+  const state = { basket: true };
+  const head = { title: "Basket" };
   res.render("basket", { state, head, basketItems, total});
   console.log("basket");
 });
@@ -237,7 +238,7 @@ async function GetProduct(id) {
 
  
     const price = Number(p.price.toFixed(2));
-    const discountedPrice = (p.price - (p.price * (p.discountPercentage / 100))).toFixed(2);
+    const discountedPrice = Number((p.price - (p.price * (p.discountPercentage / 100))).toFixed(2));
 
     return {
     id: p.id,

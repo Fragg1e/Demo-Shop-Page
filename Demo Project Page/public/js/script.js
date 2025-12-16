@@ -2,6 +2,7 @@ let basket = JSON.parse(localStorage.getItem("basket")) || [];
 
 function saveBasket() {
   localStorage.setItem("basket", JSON.stringify(basket));
+  
 }
 
 function AddToBasket(productID, title){
