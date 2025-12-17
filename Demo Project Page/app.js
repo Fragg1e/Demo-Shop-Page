@@ -5,7 +5,6 @@ const exphbs = require("express-handlebars");
 
 const session = require("express-session");
 
-// instantiate express
 const app = express();
 
 // configure express to use handlebars as templating engine
@@ -29,20 +28,31 @@ app.set("views", "views");
 // where to find static files - css, images, js
 app.use(express.static("public"));
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+let users = [];
+
+const FileStore = require("session-file-store")(session);
+
 app.use(session({
+  store: new FileStore(),
   secret: "secret",
   resave: false,
   saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = !!req.session.user;
+  res.locals.user = req.session.user || null;
+  next();
+});
+
+
 
 // home page or home route
 app.get("/", async (req, res, next) => {
   try {
-    
-
     const buyAgain = await GetBuyAgain();
 
     const highestRated = await GetHighestRated();
@@ -95,18 +105,21 @@ app.get("/about_us", (req, res) => {
 });
 
 // contact route
+app.get("/account", (req, res) => {
+  const state = { account: true };
+  const head = { title: "Account" };
+  console.log(req.session.user);
+  res.render("Account", { state, head});
+  console.log("account");
+});
+
+
+// contact route
 app.get("/contact", (req, res) => {
   state = { contact: true };
   head = { title: "Contact" };
   res.render("contact", { state, head });
   console.log("contact");
-});
-
-app.get("/checkout", (req, res) => {
-  state = { checkout: true };
-  head = { title: "Checkout" };
-  res.render("checkout", { state, head });
-  console.log("checkout");
 });
 
 // contact route
@@ -145,8 +158,7 @@ app.get("/basket", async (req, res) => {
     product.discountedPrice *= quantity;
     product.discountedPrice = Number(product.discountedPrice).toFixed(2);
 
-    
-
+  
     basketItems.push({
       product: product,
       quantity: quantity
@@ -161,11 +173,11 @@ app.get("/basket", async (req, res) => {
 
 
 // contact route
-app.get("/checkout", (req, res) => {
+app.get("/checkout", requireAuth, (req, res) => {
   state = { checkout: true };
-  const loggedIn = false;
   head = { title: "Checkout" };
-  res.render("checkout", { state, head, loggedIn});
+
+  res.render("checkout", {state, head});
   console.log("checkout");
 });
 
@@ -177,6 +189,14 @@ app.get("/register", (req, res) => {
   console.log("register");
 });
 
+app.post("/register", (req, res) => {
+  const user  = req.body;
+  req.session.user = user;
+  users.push(user);
+
+  res.redirect("/");
+});
+
 // contact route
 app.get("/login", (req, res) => {
   state = { login: true };
@@ -184,6 +204,33 @@ app.get("/login", (req, res) => {
   res.render("login", { state, head });
   console.log("login");
 });
+
+app.post("/login", (req, res) => {
+  const user = req.body;
+ 
+  req.session.user = user;
+  
+    
+    
+  req.session.save(() => {
+      res.redirect("/");
+    });
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
+function requireAuth(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  next();
+}
+
+
 
 async function GetBuyAgain() {
   const requests = [];
@@ -218,7 +265,6 @@ async function GetAllProducts() {
     const res = await fetch("https://dummyjson.com/products/category/smartphones")
     const p = await res.json(); 
     const products = p.products;
-    console.log(products[0].id);
     
     return products;
     }

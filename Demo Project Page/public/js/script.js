@@ -1,6 +1,7 @@
 let basket = JSON.parse(localStorage.getItem("basket")) || [];
 
-function saveBasket() {
+function SaveBasket() {
+  
   localStorage.setItem("basket", JSON.stringify(basket));
   
 }
@@ -8,19 +9,19 @@ function saveBasket() {
 function AddToBasket(productID, title){
   basket.push(productID);
   alert("Added", title, "to basket!");
-  sendBasketToServer();
-  saveBasket();
+  SendBasketToServer();
+  SaveBasket();
 }
 
 function RemoveFromBasket(productID, title){
   const index = basket.indexOf(productID);
   basket.splice(index, 1);
   location.reload();
-  sendBasketToServer();
-  saveBasket();
+  SendBasketToServer();
+  SaveBasket();
 }
 
-async function sendBasketToServer() {
+async function SendBasketToServer() {
   const response = await fetch("/basket", {
     method: "POST",
     headers: {
@@ -36,7 +37,7 @@ async function sendBasketToServer() {
 const sortSelect = document.getElementById("sort-select");
 const grid = document.getElementById("product-grid");
 
-function sortCards(value) {
+function SortCards(value) {
   const cards = Array.from(grid.querySelectorAll(".product-card"));
 
   console.log(cards);
@@ -53,11 +54,14 @@ function sortCards(value) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  sendBasketToServer();
+  SendBasketToServer();
   console.log("Loaded basket from storage:", basket);
 
 });
 
-sortSelect.addEventListener("change", (e) => sortCards(e.target.value));
+if(sortSelect){
+  sortSelect.addEventListener("change", (e) => SortCards(e.target.value));
+  SortCards(sortSelect.value);
+}
 
-sortCards(sortSelect.value);
+
