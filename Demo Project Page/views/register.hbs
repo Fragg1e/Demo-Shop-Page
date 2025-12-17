@@ -1,47 +1,48 @@
 <h1 class="display-1 text-center register-title">Register Account</h1>
 <main class= "register">
     
-    <form class = "register-form">
+    <form id = "register-form">
+        <p id="error-box"></p>
         <div>
             <label for="firstname-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
             </label>
-            <input required type= "text" name= "firstname" id= "firstname-input" placeholder="First Name">
+            <input autocomplete="name" required type= "text" name= "firstname" id= "firstname-input" placeholder="First Name">
         </div>
         <div>
             <label for="lastname-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
             </label>
-            <input required type= "text" name= "lastname" id= "lastname-input" placeholder="Last Name">
+            <input autocomplete="family-name" required type= "text" name= "lastname" id= "lastname-input" placeholder="Last Name">
         </div>
         <div>
             <label for="address-line-1-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>            </label>
-            <input required type= "address" name= "address" id= "address-line-1" placeholder="Address Line 1">
+            <input required autocomplete="address-level1" type= "address" name= "address" id= "address-line-1-input" placeholder="Address Line 1">
         </div>
         <div>
             <label for="address-line-2-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>            </label>
             </label>
-            <input  type= "address" name= "address" id= "address-line-2" placeholder="Address Line 2">
+            <input  autocomplete="address-level2" type= "address" name= "address" id= "address-line-2-input" placeholder="Address Line 2">
         </div>
         <div>
             <label for="address-line-3-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>            </label>
             </label>
-            <input  type= "address" name= "address" id= "address-line-3" placeholder="Address Line 3">
+            <input autocomplete="address-level3" type= "address" name= "address" id= "address-line-3-input" placeholder="Address Line 3">
         </div>
         <div>
             <label for="eircode-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/></svg>            </label>
             </label>
-            <input required type= "text" name= "eircode" id= "eircode" placeholder="Eircode">
+            <input autocomplete="postal-code" required type= "text" name= "eircode" id= "eircode-input" placeholder="Eircode">
         </div>
         <div>
             <label for="email-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480v58q0 59-40.5 100.5T740-280q-35 0-66-15t-52-43q-29 29-65.5 43.5T480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480v58q0 26 17 44t43 18q26 0 43-18t17-44v-58q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93h200v80H480Zm0-280q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z"/></svg>
             </label>
-            <input required type= "email" name= "email" id= "email-input" placeholder="example@gmail.com">
+            <input autocomplete="email" required type= "email" name= "email" id= "email-input" placeholder="example@gmail.com">
         </div>
         <div>
             <label for="password-input">
