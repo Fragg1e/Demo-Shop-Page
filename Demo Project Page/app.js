@@ -110,7 +110,7 @@ app.get("/account", (req, res) => {
   const head = { title: "Account" };
   const currentUser = req.session.user || null;
   const fullUser = users.find(u => u.email === currentUser.email && u.password === currentUser.password);
-  console.log(fullUser);
+  console.log(users);
   res.render("Account", { state, head, fullUser});
   console.log("account");
 });
@@ -186,6 +186,21 @@ app.get("/checkout", requireAuth, (req, res) => {
   console.log("checkout");
 });
 
+app.post("/paymentDetails", requireAuth, (req, res) => {
+  const paymentDetails = req.body;
+
+  const index = users.findIndex(
+    u => u.email === req.session.user.email
+  );
+
+  users[index].paymentDetails = paymentDetails;
+  req.session.user = users[index];
+
+  console.log("Current user", req.session.user);
+  SaveSession(req, res, "/checkout");
+});
+
+
 // contact route
 app.get("/register", (req, res) => {
   state = { register: true };
@@ -200,13 +215,13 @@ app.post("/register", (req, res) => {
   users.push(user);      
   req.session.user = user;
 
-  
+  SaveSession(req, res);
 });
 
 // contact route
 app.get("/login", (req, res) => {
-  state = { login: true };
-  head = { title: "Login" };
+  const state = { login: true };
+  const head = { title: "Login" };
   res.render("login", { state, head });
   console.log("login");
 });
@@ -242,13 +257,11 @@ function requireAuth(req, res, next) {
   next();
 }
 
-function SaveSession(req, res){
+function SaveSession(req, res, location = "/"){
   req.session.save(() => {
-      res.redirect("/");
+      res.redirect(location);
     });
 }
-
-
 
 async function GetBuyAgain() {
   const requests = [];

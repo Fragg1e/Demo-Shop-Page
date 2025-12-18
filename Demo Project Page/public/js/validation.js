@@ -65,6 +65,9 @@ if(card_form){
         errorBox.innerText = errors.join(" ")
         return;
     } 
+    else{
+        SavePaymentDetails();
+    }
 })
 }
 
@@ -115,8 +118,8 @@ function GetCardFormErrors(name, number, expiry, code){
         errors.push("Invalid Security Number!");
     }
     
-    const month = Number(expiry.slice(0, 1));
-    const year = Number(expiry (3, 4));
+    const month = Number(expiry.slice(0, 2));
+    const year = Number(expiry.slice(3, 5));
 
     console.log(month, year)
 
@@ -124,25 +127,23 @@ function GetCardFormErrors(name, number, expiry, code){
         card_expiry_input.parentElement.classList.add("incorrect");
         errors.push("Invalid Expiry Date - Missing '/'!");
     }
-    else if(year < 25 ){
+    if(year < 25 ){
         card_expiry_input.parentElement.classList.add("incorrect");
         errors.push("Invalid Expiry Date - Card is Expired!");
     }
-    else if(year == 25){
+    if(year == 25){
         if(month <= 11){
             card_expiry_input.parentElement.classList.add("incorrect");
             errors.push("Card is Expired!");
         }
     }
-    else if(month > 12 || month < 1){
+    if(month > 12 || month < 1){
         card_expiry_input.parentElement.classList.add("incorrect");
         errors.push("Invalid Expiry Date - Not a valid month!");
     }
 
     return errors;
 }
-
-
 
 const allInputs = [firstname_input, lastname_input, address_line_1_input, address_line_2_input, address_line_3_input, eircode_input, email_input, password_input, repeat_password_input, card_name_input, card_number_input, card_expiry_input, card_code_input].filter(input => input != null);
 
@@ -224,7 +225,29 @@ async function LoginUser() {
             })    
     });
     const data = await res.json();
-    }
+}
 
-SendUsersToServer();
+async function SavePaymentDetails() {
+    const paymentDetails = {
+        name: card_name_input.value,
+        number: card_number_input.value,
+        expiry: card_expiry_input.value,
+        code: card_code_input.value
+    }
+    const res = await fetch("/paymentDetails", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paymentDetails)
+    });
+    const result = await res.json();
+    console.log("Server response:", result);
+}
+
+addEventListener("DOMContentLoaded", (event) => 
+    { 
+        SendUsersToServer();
+    })
+
 console.log(GetUsers());

@@ -20,6 +20,16 @@
                 <p>{{user.address.eircode}}</p>
 
             </div>
+            {{#if user.paymentDetails.length}}  
+            <div class="col">
+                <h4>Payment Details:</h4>
+                <p>{{user.paymentDetails.name}}</p>
+                <p>{{user.paymentDetails.number}}</p>
+                <p>{{user.paymentDetails.expiry}}</p>
+                <p>{{user.paymentDetails.code}}</p>
+            </div>   
+            {{/if}}                   
+            
         </div>
     </div>
     
