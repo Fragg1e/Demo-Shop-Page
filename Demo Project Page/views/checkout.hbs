@@ -1,3 +1,90 @@
-<h1 class="display-1 text-center">Checkout</h1>
+<h1 class="display-4">Your Order Summary</h1>
 <main>
+    <div class="container">
+        
+        <div class="row">
+            <div class="col">
+                <h3>Your Details</h4>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h4>Address:</h4>
+                        <p>{{user.address.line1}}</p>
+                        <p>{{user.address.line2}}</p>
+                        <p>{{user.address.line3}}</p>
+                        <p>{{user.address.eircode}}</p>
+                    </div>
+                    <div class="col">
+                        <h4>Contact</h4>
+                        <p>{{user.firstname}}</p>
+                        <p>{{user.email}}</p>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+           
+            <div class="col">
+                <h3>Basket Details</h3>
+                <hr>
+                <div class="row">
+                    
+                    <div class="col">
+                        <h5>Subtotal</h5>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">€{{basketDetails.total}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h5>Shipping Costs</h5>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">€0</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3>Total</h3>
+                    </div>
+                    <div class="col">
+                        <p class="text-end">€{{basketDetails.total}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                        <a href="/order" class = "text-end"><button type="submit" class="btn order-button"><p class="text-center">Order Now</p></button></a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+
+    
+                <form id = "card-form" method="post">
+                    <p id="error-box"></p>
+                    <div>
+                        <input required autocomplete="cc-name" type= "name" name= "card-name" id= "card-name-input" placeholder="Name on card">
+                    </div>
+                    <div>
+                        <input required autocomplete="cc-number"  type= "text" name= "card-number" id= "card-number-input" placeholder="Card Number">
+                    </div>
+                    <div>
+                        <input required autocomplete="cc-exp"  type= "text" name= "card-expiry" id= "card-expiry-input" placeholder="MM/YY">
+                    </div>
+                    <div>
+                        <input required autocomplete="cc-csc" type= "text" name= "card-code" id= "card-code-input" placeholder="Security Code">
+                    </div>
+                    <button type = "submit">Save Details</button>
+                </form>
+            </div>
+            <div class="col">
+                
+            </div>
+        </div>
+    </div>
 </main>

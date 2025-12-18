@@ -1,5 +1,6 @@
 const register_form = document.getElementById("register-form");
 const login_form = document.getElementById("login-form");
+const card_form = document.getElementById("card-form");
 
 const firstname_input = document.getElementById("firstname-input");
 const lastname_input = document.getElementById("lastname-input");
@@ -10,18 +11,25 @@ const eircode_input = document.getElementById("eircode-input");
 const email_input = document.getElementById("email-input");
 const password_input = document.getElementById("password-input");
 const repeat_password_input = document.getElementById("repeat-password-input");
+
+const card_name_input = document.getElementById("card-name-input");
+const card_number_input = document.getElementById("card-number-input");
+const card_expiry_input = document.getElementById("card-expiry-input");
+const card_code_input = document.getElementById("card-code-input");
+
+
 const errorBox = document.getElementById("error-box")
 
 
 
 
 if(register_form){
-    register_form.addEventListener("submit", (e) => {
+    register_form.addEventListener("submit", (form) => {
     
     const errors = GetRegisterFormErrors(firstname_input.value, lastname_input.value, address_line_1_input.value, address_line_2_input.value, address_line_3_input.value, eircode_input.value, email_input.value, password_input.value, repeat_password_input.value); 
 
     if(errors.length > 0){
-        e.preventDefault();
+        form.preventDefault();
         errorBox.innerText = errors.join(". ")
     }
     else{
@@ -33,21 +41,34 @@ if(register_form){
 }
 
 if(login_form){
-    login_form.addEventListener("submit", (e) => {
+    login_form.addEventListener("submit", (form) => {
     
     const errors = GetLoginFormErrors(email_input.value, password_input.value);    
     if(errors.length > 0){
-        e.preventDefault();
+        form.preventDefault();
         errorBox.innerText = errors.join(". ")
         return;
     }
     else{
         LoginUser();
     }
-
- 
 })
 }
+
+
+if(card_form){
+    card_form.addEventListener("submit", (form) => {
+    
+    const errors = GetCardFormErrors(card_name_input.value, card_number_input.value, card_expiry_input.value, card_code_input.value);    
+    if(errors.length > 0){
+        form.preventDefault();
+        errorBox.innerText = errors.join(" ")
+        return;
+    } 
+})
+}
+
+
 
 
 function GetLoginFormErrors(email, password){
@@ -82,7 +103,48 @@ function GetRegisterFormErrors(firstname, lastname, address_line_1, address_line
     return errors;
 }
 
-const allInputs = [firstname_input, lastname_input, address_line_1_input, address_line_2_input, address_line_3_input, eircode_input, email_input, password_input, repeat_password_input].filter(input => input != null);
+function GetCardFormErrors(name, number, expiry, code){
+    let errors = [];
+
+    if(number.length != 16){
+        card_number_input.parentElement.classList.add("incorrect");
+        errors.push("Invalid Card Number!");
+    }
+    if(code.length != 3){
+        card_code_input.parentElement.classList.add("incorrect");
+        errors.push("Invalid Security Number!");
+    }
+    
+    const month = Number(expiry.slice(0, 1));
+    const year = Number(expiry (3, 4));
+
+    console.log(month, year)
+
+    if(expiry[2] != "/"){
+        card_expiry_input.parentElement.classList.add("incorrect");
+        errors.push("Invalid Expiry Date - Missing '/'!");
+    }
+    else if(year < 25 ){
+        card_expiry_input.parentElement.classList.add("incorrect");
+        errors.push("Invalid Expiry Date - Card is Expired!");
+    }
+    else if(year == 25){
+        if(month <= 11){
+            card_expiry_input.parentElement.classList.add("incorrect");
+            errors.push("Card is Expired!");
+        }
+    }
+    else if(month > 12 || month < 1){
+        card_expiry_input.parentElement.classList.add("incorrect");
+        errors.push("Invalid Expiry Date - Not a valid month!");
+    }
+
+    return errors;
+}
+
+
+
+const allInputs = [firstname_input, lastname_input, address_line_1_input, address_line_2_input, address_line_3_input, eircode_input, email_input, password_input, repeat_password_input, card_name_input, card_number_input, card_expiry_input, card_code_input].filter(input => input != null);
 
 
 allInputs.forEach(input => {

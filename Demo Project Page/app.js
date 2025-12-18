@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 let users = [];
+let basketDetails = {};
 
 const FileStore = require("session-file-store")(session);
 
@@ -69,7 +70,6 @@ app.get("/", async (req, res, next) => {
     return next(err);
   }
 
-  // send this to terminal where node app is running
 });
 
 app.get("/products/:id", async (req, res, next) => {
@@ -160,6 +160,8 @@ app.get("/basket", async (req, res) => {
     product.discountedPrice *= quantity;
     product.discountedPrice = Number(product.discountedPrice).toFixed(2);
 
+    basketDetails.total = total;
+    basketDetails.quantity = quantity;
   
     basketItems.push({
       product: product,
@@ -176,10 +178,11 @@ app.get("/basket", async (req, res) => {
 
 // contact route
 app.get("/checkout", requireAuth, (req, res) => {
-  state = { checkout: true };
-  head = { title: "Checkout" };
+  const state = { checkout: true };
+  const head = { title: "Checkout" };
+  const user = req.session.user;
 
-  res.render("checkout", {state, head});
+  res.render("checkout", {state, head, user, basketDetails});
   console.log("checkout");
 });
 
@@ -280,6 +283,10 @@ async function GetAllProducts() {
     const res = await fetch("https://dummyjson.com/products/category/smartphones")
     const p = await res.json(); 
     const products = p.products;
+    products.forEach(product => {
+      product.price = Number(product.price.toFixed(2));
+      product.discountedPrice = Number((product.price - (product.price * (product.discountPercentage / 100))).toFixed(2));
+    });
     
     return products;
     }

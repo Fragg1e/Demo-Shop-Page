@@ -9,8 +9,17 @@ h2{
   font-size: 2.5em;
 }
 
+h3{
+  padding: 2%;
+}
+
+.display-4{
+  margin-left:6%;
+  padding: 3%;
+}
+
 p{
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 
 body {
@@ -30,6 +39,8 @@ footer{
 
 .navbar-brand{
   font-size: 1.3em;
+  margin-right: 3%;
+  margin-left: 3%;
 }
 
 .sorter{
@@ -59,6 +70,38 @@ footer{
 
 }
 
+#logOut{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  
+  
+}
+.log-out-button{
+  font-size: 1.35em;
+  
+}
+.log-out-button:hover{
+  color: red;
+}
+
+.order-button{
+  background-color: black;
+  color: white;
+  width: 50%;
+  font-size: 1.35em;
+}
+
+.order-button:hover{
+  background-color: rgb(59, 58, 58);
+  color: white;
+}
+
+.account-details{
+  padding:5%;
+}
+
 #checkout{
  padding: 10%;
 }
@@ -75,9 +118,6 @@ footer{
 .login-btn:hover{
   background-color: grey;
 }
-
-
-
 
 .register{
   text-align: center;

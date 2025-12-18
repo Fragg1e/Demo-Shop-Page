@@ -1,9 +1,30 @@
-<h1 class="display-1 text-center">My Account</h1>
 
 <main>
-    <p>Hello {{user.firstname}}</p>
-    <p>Email: {{user.email}}</p>
+    <h3 class="text-center display-4">Hello {{user.firstname}}</h3>
 
-    <a href="/logout" id = "logOut"><button type="button" class="btn log-out-button">Log Out</button></a>
+    <h3 class="text-center">Your Details:</h3>
+    
+    <div class="container account-details">
+        
+        <div class="row">
+            <div class="col">
+                <h4>Email:</h4> {{user.email}}
+            </div>
+            
+            
+            <div class="col">
+                <h4>Address:</h4>
+                <p>{{user.address.line1}}</p>
+                <p>{{user.address.line2}}</p>
+                <p>{{user.address.line3}}</p>
+                <p>{{user.address.eircode}}</p>
+
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <a href="/logout" id = "logOut"><button  class="btn log-out-button">Log Out</button></a>
 
 </main>
