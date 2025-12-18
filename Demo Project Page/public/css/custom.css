@@ -67,6 +67,15 @@ footer{
   padding: 6%;
 }
 
+.login-btn{
+  background-color: black;
+  color: white;
+  text-decoration: none;
+}
+.login-btn:hover{
+  background-color: grey;
+}
+
 
 
 

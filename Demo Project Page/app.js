@@ -39,7 +39,7 @@ app.use(session({
   store: new FileStore(),
   secret: "secret",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 app.use((req, res, next) => {
@@ -108,8 +108,10 @@ app.get("/about_us", (req, res) => {
 app.get("/account", (req, res) => {
   const state = { account: true };
   const head = { title: "Account" };
-  console.log(req.session.user);
-  res.render("Account", { state, head});
+  const currentUser = req.session.user || null;
+  const fullUser = users.find(u => u.email === currentUser.email && u.password === currentUser.password);
+  console.log(fullUser);
+  res.render("Account", { state, head, fullUser});
   console.log("account");
 });
 
@@ -190,11 +192,12 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  const user  = req.body;
-  req.session.user = user;
-  users.push(user);
+  const user = req.body;
 
-  res.redirect("/");
+  users.push(user);      
+  req.session.user = user;
+
+  
 });
 
 // contact route
@@ -206,28 +209,40 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const user = req.body;
- 
-  req.session.user = user;
-  
-    
-    
-  req.session.save(() => {
-      res.redirect("/");
-    });
+  const {email} = req.body;
+  console.log(users);
+
+  const found = users.find(u => u.email === email );
+
+  req.session.user = found;
+  SaveSession(req, res)
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/");
-  });
+  req.session.user = null;
+
+  SaveSession(req, res)
 });
+
+app.post("/users", (req, res) => {
+  users = req.body.users || [];  
+
+  res.json({ success: true }); 
+
+});
+
 
 function requireAuth(req, res, next) {
   if (!req.session.user) {
     return res.redirect("/login");
   }
   next();
+}
+
+function SaveSession(req, res){
+  req.session.save(() => {
+      res.redirect("/");
+    });
 }
 
 

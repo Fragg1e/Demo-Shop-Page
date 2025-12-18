@@ -13,15 +13,7 @@ const repeat_password_input = document.getElementById("repeat-password-input");
 const errorBox = document.getElementById("error-box")
 
 
-function GetUsers(){
-    return JSON.parse(localStorage.getItem("users") || "[]");
 
-}
-function AddUser(user) {
-    const users = GetUsers();
-    users.push(user);
-    localStorage.setItem("users", JSON.stringify(users));
-}
 
 if(register_form){
     register_form.addEventListener("submit", (e) => {
@@ -102,26 +94,18 @@ allInputs.forEach(input => {
     })
 })
 
-function SaveData(login = false){
+function GetUsers(){
+    return JSON.parse(localStorage.getItem("users") || "[]");
     
-    if(login){
-       const fullUser = GetUsers().find(u => u.email === email && u.password === password);
-       
 
-        const user = {
-        firstname :fullUser.firstname,
-        lastname: fullUser.lastname,
-        address:{
-            line1: fullUser.address_line_1,
-            line2: fullUser.address_line_2,
-            line3: fullUser.address_line_3,
-            eircode: fullUser.eircode
-            },
-        email: fullUser.email,
-        password: fullUser.password,
-    }
-    return user;
-    }
+}
+function AddUser(user) {
+    const users = GetUsers();
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+function SaveData(){
     
     const user = {
         firstname :firstname_input.value,
@@ -138,8 +122,23 @@ function SaveData(login = false){
     return user;
 }
 
+async function SendUsersToServer() {
+    let users = GetUsers();
+    const response = await fetch("/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({users})
+  });
+
+  const result = await response.json();
+  console.log("Server response:", result);
+}
+
 
 async function RegisterUser() {
+    SendUsersToServer();
     const res = await fetch("/register", {
         method: "POST",
         headers: {
@@ -147,21 +146,23 @@ async function RegisterUser() {
         },
         body: JSON.stringify(SaveData())
     });
-    const data = await res.json();
+    const result = await res.json();
+    console.log("Server response:", result);
 }
 
 async function LoginUser() {
-
 
     const res = await fetch("/login", {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
         },
-        body: JSON.stringify(SaveData(true))
+        body: JSON.stringify({
+            email: email_input.value,
+            })    
     });
     const data = await res.json();
     }
 
-
+SendUsersToServer();
 console.log(GetUsers());
