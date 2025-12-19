@@ -20,22 +20,23 @@ const card_code_input = document.getElementById("card-code-input");
 
 const errorBox = document.getElementById("error-box")
 
+//get all html elements 
+
 
 if(register_form){
-    register_form.addEventListener("submit", (form) => {
+    register_form.addEventListener("submit", (form) => { //listen for submit button
     
     const errors = GetRegisterFormErrors(firstname_input.value, lastname_input.value, address_line_1_input.value, address_line_2_input.value, address_line_3_input.value, eircode_input.value, email_input.value, password_input.value, repeat_password_input.value); 
 
-    if(errors.length > 0){
-        form.preventDefault();
-        errorBox.innerText = errors.join(". ")
+    if(errors.length > 0){ //if there are errors 
+        form.preventDefault(); //dont let the form submit 
+        errorBox.innerText = errors.join(". ") //display errors
     }
-    else{
-        RegisterUser();
+    else{ // if no errors 
+        RegisterUser(); 
     }
     
-})
-}
+})}
 
 if(login_form){
     login_form.addEventListener("submit", (form) => {
@@ -50,9 +51,7 @@ if(login_form){
         LoginUser();
 
     }
-})
-}
-
+})}
 
 if(card_form){
     card_form.addEventListener("submit", (form) => {
@@ -66,15 +65,14 @@ if(card_form){
     else{
         SavePaymentDetails();
     }
-})
-}
+})}
 
 function GetLoginFormErrors(email, password){
     let errors = [];
-    const users = GetUsers();
-    const match = users.find((users) => users.email === email && users.password === password);
+    const users = GetUsers(); //get all users 
+    const match = users.find((users) => users.email === email && users.password === password); //looks for user with same email and password 
 
-    if(!match){
+    if(!match){ //one is incorrect
         password_input.parentElement.classList.add("incorrect");
         errors.push("Incorrect password or email!");
     }
@@ -82,9 +80,9 @@ function GetLoginFormErrors(email, password){
     return errors;
 }
 
-function GetRegisterFormErrors(firstname, lastname, address_line_1, address_line_2, address_line_3, eircode, email, password, repeat_password){
+function GetRegisterFormErrors(email, password, repeat_password){
     let errors = [];
-    const users = GetUsers();
+    const users = GetUsers(); 
 
     if(password != repeat_password){
         password_input.parentElement.classList.add("incorrect");
@@ -92,12 +90,11 @@ function GetRegisterFormErrors(firstname, lastname, address_line_1, address_line
         errors.push("Passwords do not match!");
 
     }
-    if(users.find((users) => users.email === email)){
+    if(users.find((users) => users.email === email)){ //if an account with that email already exists 
         email_input.parentElement.classList.add("incorrect");
         errors.push("Account exists with that email already, try logging in.");
     }
-    
-    
+       
     return errors;
 }
 
@@ -113,7 +110,7 @@ function GetCardFormErrors(number, expiry, code){
         errors.push("Invalid Security Number!");
     }
     
-    const month = Number(expiry.slice(0, 2));
+    const month = Number(expiry.slice(0, 2)); //splits out expiry date info 
     const year = Number(expiry.slice(3, 5));
 
     console.log(month, year)
@@ -129,7 +126,7 @@ function GetCardFormErrors(number, expiry, code){
     if(year == 25){
         if(month <= 11){
             card_expiry_input.parentElement.classList.add("incorrect");
-            errors.push("Card is Expired!");
+            errors.push("Invalid Expiry Date - Card is Expired!");
         }
     }
     if(month > 12 || month < 1){
@@ -144,7 +141,7 @@ const allInputs = [firstname_input, lastname_input, address_line_1_input, addres
 
 
 allInputs.forEach(input => {
-    input.addEventListener('input', () =>{
+    input.addEventListener('input', () =>{ //removes red outline from inputs when user enters info in it
         if(input.parentElement.classList.contains("incorrect")){
             input.parentElement.classList.remove("incorrect")
             errorBox.innerHTML = "";

@@ -3,7 +3,7 @@
     data-rating="{{rating}}"
     data-title="{{title}}">
     <a class="thumbnail" href="/products/{{id}}">
-        <img src="{{thumbnail}}" alt="{{title}}" loading="lazy" width="150" height="150">
+        <img src="{{thumbnail}}" alt="{{title}}">
     </a>
   <div class="product-info">
     <h3><a class="product-title" href="/products/{{id}}">{{title}}</a></h3>
@@ -19,7 +19,6 @@
     <button  type="button" class="btn add-to-basket" onclick="AddToBasket({{id}}, `{{title}}`)">Add to Basket</button>
     
   </div>
-
     <ul class="tags">
       {{#each tags}}
         <li>{{this}}</li>

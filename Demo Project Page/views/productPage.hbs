@@ -1,11 +1,18 @@
-<h1 class = 'text-center display-4'>{{product.title}}</h1>
-
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <a href="/"><button class="btn back-button">← Back</button></a>
+    </div>
+    <div class="col">
+      <h1 class = 'text-center display-4'>{{product.title}}</h1>
+    </div>
+  </div>
+</div>
 
 <main>
   
+  
 <section class="product-detail p-4">
-  <a href="/"><button class="btn checkout-button">← Back</button></a>
-  <br><br>
     <div class = 'row'> 
         <div class = 'col'>
             <img src="{{product.thumbnail}}" alt="{{product.title}}" width="500" height="500">
@@ -13,6 +20,7 @@
         <div class = 'col'>
             <p><strong>Price:</strong> €{{product.price}}</p>
             <p><strong>Rating:</strong> {{product.rating}} / 5</p>
+            <p><strong>Stock: </strong>{{product.stock}}</p>
             <p>{{product.description}}</p>
             <button  type="button" class="btn btn-lg add-to-basket" onclick="AddToBasket({{id}}, `${{{title}}}`)">Add to Basket</button>
 
@@ -30,18 +38,21 @@
                   <p>Rating: {{rating}} / 5</p>
                 </div>
               {{/each}}
+                      
             </div>
         </div>
 
         <div class = 'col'>
           <h4>Product Specifications</h4>
 
+          <p><strong>Weight: </strong>{{product.weight}}kg</p>
+
           <h5>Dimensions</h5>
 
           
-          <p>Width: {{product.dimensions.width}}</p>
-          <p>Heigth: {{product.dimensions.height}}</p>
-          <p>Depth: {{product.dimensions.depth}}</p>
+          <p><strong>Width: </strong>{{product.dimensions.width}}cm</p>
+          <p><strong>Heigth: </strong>{{product.dimensions.height}}cm</p>
+          <p><strong> Depth: </strong>{{product.dimensions.depth}}cm</p>
 
           <h5>Warranty Details</h5>
 

@@ -65,7 +65,6 @@ textarea{
 .sorter label{
   padding-right: 1%;
 }
-
 .add-to-basket{
   background-color: $main-purple;
   font-weight: bold;
@@ -75,6 +74,21 @@ textarea{
   background-color: $hover-purple;
 }
 
+.back-button{
+  background-color: black;
+  color: white;
+  width: 15%;
+  margin: 5%;
+  font-size: 1em;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.back-button:hover{
+  @include button-hover;
+}
+
+
 .main-button{
   background-color: black;
   color: white;
@@ -83,7 +97,6 @@ textarea{
   font-size: $headerSize;
   transition-duration: 0.3s;
   cursor: pointer;
-  
 }
 
 .main-button:hover{
@@ -108,9 +121,7 @@ textarea{
 
 .order-button:hover{
    @include button-hover;
-
 }
-
 
 #logOut{
   display: flex;
@@ -119,6 +130,16 @@ textarea{
   text-decoration: none;
   
 }
+
+.login-btn{
+  background-color: black;
+  color: white;
+  text-decoration: none;
+}
+.login-btn:hover{
+   @include button-hover;
+}
+
 
 .checkout-img{
   width:15%;
@@ -135,15 +156,6 @@ textarea{
 
 .empty-basket{
   padding: 6%;
-}
-
-.login-btn{
-  background-color: black;
-  color: white;
-  text-decoration: none;
-}
-.login-btn:hover{
-   @include button-hover;
 }
 
 .register{
@@ -187,11 +199,13 @@ form{
     font: inherit;
     transition: 150ms ease;
   }
-  div.incorrect label{
-    background-color: red;
-  }
-  div.incorrect input{
+  div.incorrect {
+    label{
+      background-color: red;
+    }
+    input{
     border-color: red;
+    }
   }
 }
 
