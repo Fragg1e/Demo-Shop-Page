@@ -37,6 +37,19 @@ footer{
   margin-top: auto;
 }
 
+
+.contact{
+  margin-left: 10%;
+  margin-right: 10%;
+
+}
+
+textarea{
+  width:100%;
+  height: 20vh;
+}
+
+
 .navbar-brand{
   font-size: 1.3em;
   margin-right: 3%;
@@ -89,13 +102,20 @@ footer{
 .order-button{
   background-color: black;
   color: white;
-  width: 50%;
+  width: 100%;
+  margin: 5%;
   font-size: 1.35em;
 }
 
 .order-button:hover{
   background-color: rgb(59, 58, 58);
   color: white;
+}
+
+
+.checkout-img{
+  width:15%;
+  height: auto;
 }
 
 .account-details{
@@ -185,7 +205,7 @@ form input{
 
 .basket-product-card{
   padding: 5%;
-  background-color: #fff;;
+  background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 3%;

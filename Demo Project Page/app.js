@@ -32,7 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 let users = [];
-let basketDetails = {};
 
 const FileStore = require("session-file-store")(session);
 
@@ -58,13 +57,18 @@ app.get("/", async (req, res, next) => {
 
     const highestRated = await GetHighestRated();
 
-    state = { home: true };
+    const state = { home: true };
 
-    head = { title: "Home" };
+    const head = { title: "Home" };
+
+    const meta = {
+      description: "Smarter Phones - Ireland's best online smartphone store. Buy quality smartphones at great prices with free delivery across Ireland. Latest models, customer reviews, and expert advice.",
+      keywords: "smartphones, mobile phones, buy phones online Ireland, smartphone store, iPhone, Samsung, smartphone deals, phone shop Ireland, mobile phone retailer, best smartphone prices"
+    }
 
     console.log("home");
 
-    return res.render("index", { state, head, buyAgain, highestRated });
+    return res.render("index", { state, head, meta, buyAgain, highestRated });
   } catch (err) {
     console.error(err);
     return next(err);
@@ -87,53 +91,78 @@ app.get("/products/:id", async (req, res, next) => {
 
 // contact route
 app.get("/shop", async(req, res) => {
-
   const products = await GetAllProducts();
-  state = { shop: true };
-  head = { title: "Shop" };
+  const state = { shop: true };
+  const head = { title: "Shop" };
+  const meta = {
+      description: "Browse our complete smartphone collection - Latest iPhone, Samsung, and Android models. Compare prices, read reviews, and find the perfect phone. Free delivery across Ireland.",
+      keywords: "smartphone shop, buy smartphones online, phone catalogue, smartphone collection, mobile phone store, phone deals, smartphone prices, phone reviews, latest smartphones, phone comparison"
+    }
 
-  res.render("shop", { state, head, products});
+  res.render("shop", { state, head, meta, products});
   console.log("shop");
 });
 
-// contact route
+
 app.get("/about_us", (req, res) => {
-  state = { about_us: true };
-  head = { title: "About us" };
-  res.render("about_us", { state, head });
+  const state = { about_us: true };
+  const head = { title: "About us" };
+  const meta = {
+      description: "Learn about Smarter Phones - Ireland's trusted smartphone retailer since the 2000s. Our mission is to bring you the best quality smartphones at the best prices.",
+      keywords: "about Smarter Phones, smartphone retailer Ireland, phone store history, trusted phone retailer, smartphone company Ireland, phone shop about us, mobile phone retailer"
+    }
+
+  res.render("about_us", { state, head, meta});
   console.log("about_us");
 });
 
-// contact route
+
 app.get("/account", (req, res) => {
   const state = { account: true };
   const head = { title: "Account" };
+  const meta = {
+      description: "Manage your Smarter Phones account. View your details, delivery address, order history, and payment information. Update your account settings anytime.",
+      keywords: "my account, account management, customer account, order history, account settings, profile"
+    }
+
   const currentUser = req.session.user || null;
   const fullUser = users.find(u => u.email === currentUser.email && u.password === currentUser.password);
-  console.log(users);
-  res.render("Account", { state, head, fullUser});
+
+  res.render("Account", { state, head, meta, fullUser});
   console.log("account");
 });
 
 
-// contact route
+
 app.get("/contact", (req, res) => {
-  state = { contact: true };
-  head = { title: "Contact" };
-  res.render("contact", { state, head });
+  const state = { contact: true };
+  const head = { title: "Contact" };
+  const meta = {
+      description: "Contact Smarter Phones customer service. Reach us by phone, email, or submit a query. Open Monday-Friday 9:30-18:30, Saturday 9:30-16:00. We're here to help!",
+      keywords: "contact Smarter Phones, customer service Ireland, phone shop contact, smartphone store contact, customer support, phone retailer Ireland contact, Smarter Phones phone number"
+    }
+
+  res.render("contact", { state, head, meta});
   console.log("contact");
 });
 
-// contact route
-app.post("/basket", (req, res) => {
-  
-  const { basket} = req.body;
-  req.session.basket = basket;
-  res.json({ success: true }); 
 
+app.post("/basket", (req, res) => {
+  const { basket} = req.body;
+
+  req.session.basket = basket;
+
+  res.json({ success: true });
 });
 
 app.get("/basket", async (req, res) => {
+
+  const state = { basket: true };
+  const head = { title: "Basket" };
+  const meta = {
+      description: "Review your shopping basket at Smarter Phones. Check your selected smartphones, quantities, and total price. Ready to checkout? Complete your purchase securely.",
+      keywords: "shopping basket, cart, shopping cart, basket review, checkout, smartphone cart, order review"
+    }
 
   const basket = req.session.basket || [];
 
@@ -148,64 +177,79 @@ app.get("/basket", async (req, res) => {
     basketTrack[id]++;
     }
   }
-  basketItems = []
+  let basketItems = []
   
   for(const id in basketTrack){
     const product = await GetProduct(id);
     const quantity = basketTrack[id];
 
-    product.price = product.price * quantity;
+    product.price *= quantity;
     total += product.price;
 
     product.discountedPrice *= quantity;
     product.discountedPrice = Number(product.discountedPrice).toFixed(2);
 
-    basketDetails.total = total;
-    basketDetails.quantity = quantity;
-  
     basketItems.push({
       product: product,
       quantity: quantity
     })
   }
 
-  const state = { basket: true };
-  const head = { title: "Basket" };
-  res.render("basket", { state, head, basketItems, total});
+   const basketDetails = {
+    items: basketItems,
+    total: Number(total.toFixed(2)),
+    totalQuantity: basket.length // Total items in basket
+  };
+
+  req.session.basketDetails = basketDetails;
+
+  res.render("basket", { state, head, meta, basketItems, total});
   console.log("basket");
 });
 
 
-// contact route
+
 app.get("/checkout", requireAuth, (req, res) => {
   const state = { checkout: true };
   const head = { title: "Checkout" };
+  const meta = {
+      description: "Complete your smartphone purchase securely at Smarter Phones. Review your order, enter payment details, and get free delivery across Ireland. Secure checkout guaranteed.",
+      keywords: "checkout, secure payment, buy smartphones, complete purchase, payment, order confirmation, secure checkout Ireland"
+    }
+  
   const user = req.session.user;
 
-  res.render("checkout", {state, head, user, basketDetails});
+  const basketDetails = req.session.basketDetails;
+
+  res.render("checkout", {state, head, meta, user, basketDetails});
   console.log("checkout");
 });
 
-app.post("/paymentDetails", requireAuth, (req, res) => {
-  const paymentDetails = req.body;
+app.get("/ordered", (req, res) => {
+  const state = { ordered: true };
+  const head = { title: "Ordered" };
+  const meta = {
+      description: "Thank you for your order at Smarter Phones! Your order has been confirmed.Free delivery across Ireland.",
+      keywords: "order confirmation, thank you, order received, purchase confirmed, order complete"
+    }
 
-  const index = users.findIndex(
-    u => u.email === req.session.user.email
-  );
+  req.session.basket = [];
+  req.session.basketDetails = null;
 
-  users[index].paymentDetails = paymentDetails;
-  req.session.user = users[index];
-
-  console.log("Current user", req.session.user);
-  SaveSession(req, res, "/checkout");
+  res.render("ordered", {state, head, meta});
+  console.log("ordered");
 });
 
 
-// contact route
 app.get("/register", (req, res) => {
-  state = { register: true };
-  head = { title: "Register" };
-  res.render("register", { state, head});
+  const state = { register: true };
+  const head = { title: "Register" };
+  const meta = {
+      description: "Create your free Smarter Phones account. Save your delivery address, track orders, and enjoy faster checkout. Register now and start shopping for smartphones.",
+      keywords: "register Smarter Phones, create account, sign up, new customer registration, smartphone store account, member registration"
+    }
+
+  res.render("register", { state, head, meta});
   console.log("register");
 });
 
@@ -218,21 +262,26 @@ app.post("/register", (req, res) => {
   SaveSession(req, res);
 });
 
-// contact route
+
 app.get("/login", (req, res) => {
   const state = { login: true };
   const head = { title: "Login" };
-  res.render("login", { state, head });
+  const meta = {
+      description: "Login to your Smarter Phones account. Access your order history, saved addresses, and manage your account. New customer? Register for free today.",
+      keywords: "Smarter Phones login, account login, customer account, smartphone store login, member login, sign in"
+    }
+
+  res.render("login", { state, head, meta});
   console.log("login");
 });
 
 app.post("/login", (req, res) => {
   const {email} = req.body;
-  console.log(users);
 
   const found = users.find(u => u.email === email );
-
   req.session.user = found;
+
+
   SaveSession(req, res)
 });
 
@@ -244,9 +293,7 @@ app.get("/logout", (req, res) => {
 
 app.post("/users", (req, res) => {
   users = req.body.users || [];  
-
-  res.json({ success: true }); 
-
+  res.json({ success: true });
 });
 
 
@@ -308,9 +355,6 @@ async function GetAllProducts() {
     }
   
 }
-
-
-
 
 async function GetProduct(id) {
   try{

@@ -21,8 +21,6 @@ const card_code_input = document.getElementById("card-code-input");
 const errorBox = document.getElementById("error-box")
 
 
-
-
 if(register_form){
     register_form.addEventListener("submit", (form) => {
     
@@ -33,7 +31,6 @@ if(register_form){
         errorBox.innerText = errors.join(". ")
     }
     else{
-        AddUser(SaveData());
         RegisterUser();
     }
     
@@ -51,6 +48,7 @@ if(login_form){
     }
     else{
         LoginUser();
+
     }
 })
 }
@@ -59,7 +57,7 @@ if(login_form){
 if(card_form){
     card_form.addEventListener("submit", (form) => {
     
-    const errors = GetCardFormErrors(card_name_input.value, card_number_input.value, card_expiry_input.value, card_code_input.value);    
+    const errors = GetCardFormErrors(card_number_input.value, card_expiry_input.value, card_code_input.value);    
     if(errors.length > 0){
         form.preventDefault();
         errorBox.innerText = errors.join(" ")
@@ -70,9 +68,6 @@ if(card_form){
     }
 })
 }
-
-
-
 
 function GetLoginFormErrors(email, password){
     let errors = [];
@@ -106,7 +101,7 @@ function GetRegisterFormErrors(firstname, lastname, address_line_1, address_line
     return errors;
 }
 
-function GetCardFormErrors(name, number, expiry, code){
+function GetCardFormErrors(number, expiry, code){
     let errors = [];
 
     if(number.length != 16){
@@ -159,9 +154,8 @@ allInputs.forEach(input => {
 
 function GetUsers(){
     return JSON.parse(localStorage.getItem("users") || "[]");
-    
-
 }
+
 function AddUser(user) {
     const users = GetUsers();
     users.push(user);
@@ -187,35 +181,29 @@ function SaveData(){
 
 async function SendUsersToServer() {
     let users = GetUsers();
-    const response = await fetch("/users", {
+    await fetch("/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({users})
   });
-
-  const result = await response.json();
-  console.log("Server response:", result);
 }
 
-
 async function RegisterUser() {
+    AddUser(SaveData());
     SendUsersToServer();
-    const res = await fetch("/register", {
+    await fetch("/register", {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
         },
         body: JSON.stringify(SaveData())
     });
-    const result = await res.json();
-    console.log("Server response:", result);
 }
 
 async function LoginUser() {
-
-    const res = await fetch("/login", {
+    await fetch("/login", {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
@@ -224,30 +212,11 @@ async function LoginUser() {
             email: email_input.value,
             })    
     });
-    const data = await res.json();
+    
 }
 
-async function SavePaymentDetails() {
-    const paymentDetails = {
-        name: card_name_input.value,
-        number: card_number_input.value,
-        expiry: card_expiry_input.value,
-        code: card_code_input.value
-    }
-    const res = await fetch("/paymentDetails", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-        },
-        body: JSON.stringify(paymentDetails)
-    });
-    const result = await res.json();
-    console.log("Server response:", result);
-}
-
-addEventListener("DOMContentLoaded", (event) => 
-    { 
-        SendUsersToServer();
-    })
+document.addEventListener("DOMContentLoaded", () => {
+    SendUsersToServer();
+});
 
 console.log(GetUsers());

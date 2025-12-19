@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "express": "^5.2.0",
-    "express-handlebars": "^8.0.1",
-    "star-rating.js": "^4.3.1"
+    "express": "^4.19.2",
+    "express-handlebars": "^8.0.3",
+    "express-session": "^1.18.2",
+    "session-file-store": "^1.5.0"
   }
 }

@@ -1,7 +1,6 @@
-<h1 class="display-4">Your Order Summary</h1>
+<h1 class="display-4 text-center">Your Order Summary</h1>
 <main>
     <div class="container">
-        
         <div class="row">
             <div class="col">
                 <h3>Your Details</h4>
@@ -53,26 +52,17 @@
                         <p class="text-end">€{{basketDetails.total}}</p>
                     </div>
                 </div>
-                <div class="row">
-                        <a href="/order" class = "text-end"><button type="submit" class="btn order-button"><p class="text-center">Order Now</p></button></a>
-                </div>
+                
 
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
+        <br><br><br>
 
-                {{#if user.paymentDetails.length}}                  
-                        <h4>Payment Details:</h4>
-                        <p>{{user.paymentDetails.name}}</p>
-                        <p>{{user.paymentDetails.number}}</p>
-                        <p>{{user.paymentDetails.expiry}}</p>
-                        <p>{{user.paymentDetails.code}}</p>
-                    
-                {{else}}                
-    
-                    <form id = "card-form" action="/paymentDetails" method="post">
+        <div class="row">
+            <div class="col">      
+                <h4>Payment Details</h4>
+                    <form id = "card-form" action="/ordered">
                         <p id="error-box"></p>
                         <div>
                             <input required autocomplete="cc-name" type= "name" name= "card-name" id= "card-name-input" placeholder="Name on card">
@@ -86,11 +76,29 @@
                         <div>
                             <input required autocomplete="cc-csc" type= "text" name= "card-code" id= "card-code-input" placeholder="Security Code">
                         </div>
-                        <button type = "submit">Save Details</button>
+                        
+                        <a class = "text-end"><button type="submit" class="btn order-button"><p class="text-center">Order Now</p></button></a>
+
                     </form>
-                {{/if}}
+                
             </div>
             <div class="col">
+
+                <h4>Your order</h4>
+                {{#each basketDetails.items}}
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <p class="checkout-items"><img class="checkout-img" src="{{this.product.thumbnail}}"> {{this.quantity}} x {{this.product.title}}</p>
+
+                        </div>
+                        <div class="col">
+                            <p class="text-end"><s>€{{this.product.price}}</s>&nbsp;&nbsp;€{{this.product.discountedPrice}}</p>
+                        </div>
+                    </div>
+                    
+                {{/each}}
+                <hr>
                 
             </div>
         </div>
