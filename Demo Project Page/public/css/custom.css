@@ -1,0 +1,264 @@
+h3 {
+  padding: 2%;
+}
+
+.display-4 {
+  margin-left: 6%;
+  padding: 3%;
+}
+
+p {
+  margin-bottom: 3%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  margin: 3%;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.contact {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+textarea {
+  width: 100%;
+  height: 20vh;
+}
+
+.navbar-brand {
+  font-size: 1.35em;
+  margin-right: 3%;
+  margin-left: 3%;
+}
+
+.sorter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+}
+
+.sorter label {
+  padding-right: 1%;
+}
+
+.add-to-basket {
+  background-color: #BE90D4;
+  font-weight: bold;
+}
+
+.add-to-basket:hover:hover {
+  background-color: #8E44AD;
+}
+
+.main-button {
+  background-color: black;
+  color: white;
+  width: 50%;
+  margin: 5%;
+  font-size: 1.35em;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.main-button:hover {
+  background-color: rgb(34, 33, 33);
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.log-out-button {
+  font-size: 1.35em;
+}
+
+.log-out-button:hover {
+  color: red;
+}
+
+.order-button {
+  background-color: black;
+  color: white;
+  width: 100%;
+  margin: 5%;
+  font-size: 1.35em;
+}
+
+.order-button:hover {
+  background-color: rgb(34, 33, 33);
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#logOut {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.checkout-img {
+  width: 15%;
+  height: auto;
+}
+
+.account-details {
+  padding: 5%;
+}
+
+#checkout {
+  padding: 10%;
+}
+
+.empty-basket {
+  padding: 6%;
+}
+
+.login-btn {
+  background-color: black;
+  color: white;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background-color: rgb(34, 33, 33);
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.register {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  margin-top: 2vh;
+  margin-bottom: 7vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5vh;
+}
+form > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+form label {
+  flex-shrink: 0;
+  height: 5vh;
+  width: 40px;
+  background-color: #8E44AD;
+  fill: #ddd9d9;
+  color: #ddd9d9;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form input {
+  box-sizing: border-box;
+  flex-grow: 1;
+  min-width: 0;
+  height: 5vh;
+  padding: 1em;
+  font: inherit;
+  transition: 150ms ease;
+}
+form div.incorrect label {
+  background-color: red;
+}
+form div.incorrect input {
+  border-color: red;
+}
+
+.register-title {
+  padding-top: 5vh;
+  margin-bottom: 1vh;
+}
+
+.product-info {
+  margin: 10%;
+}
+
+.product-img {
+  max-width: 30%;
+}
+
+.basket-product-card {
+  padding: 5%;
+  background-color: #fff;
+  margin: 5%;
+  border-radius: 25px;
+  width: 75%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.basket-checkout {
+  margin-top: 30%;
+}
+
+.product-title {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-grid {
+  width: 90%;
+  margin: 2rem auto;
+  display: grid;
+  gap: 2rem;
+}
+.product-grid .products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+  gap: 1.5rem;
+}
+.product-grid .products .product-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #fff;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.product-grid .products .product-card img {
+  display: block;
+  margin: 0 auto 1rem;
+  border-radius: 6px;
+}
+.product-grid .products .product-card .tags {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.product-grid .products .product-card .tags li {
+  background: lightgrey;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.product-grid .products .product-card:hover {
+  transform: scale(1.02);
+}/*# sourceMappingURL=custom.css.map */

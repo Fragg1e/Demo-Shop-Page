@@ -3,14 +3,13 @@ $subtitleSize: 2.5em;
 $headerSize: 1.35em;
 $shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 $main-purple: #BE90D4;
-$hover-purple: #8E44AD;;
+$hover-purple: #8E44AD;
 
 @mixin button-hover {
   background-color: rgb(34, 33, 33);
   color: white;
   box-shadow: $shadow;
 }
-
 
 h3{
   padding: 2%;
