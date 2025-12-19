@@ -1,4 +1,1 @@
-- install libraries required
-npm install
-- run the server
-node app.js
+run the RunWebsite.bat to start website and install dependacies 
